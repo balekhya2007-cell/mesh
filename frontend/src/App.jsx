@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Login";
 import Signup from "./Signup";
-const API = "http://localhost:8080/api";
-const AI_API = "http://localhost:8000";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api`;
+const AI_API = import.meta.env.VITE_AI_API_URL || "http://localhost:8000";
 
 
 
