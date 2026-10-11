@@ -39,7 +39,8 @@ public class StudentController {
     // AI-assisted skill matching for a project's required skills
     @GetMapping("/match")
     public List<Map<String, Object>> matchStudents(
-            @RequestParam String skills) {
+            @RequestParam String skills,
+            @RequestParam(required = false) Long excludeId) {
 
         List<String> requiredSkills = Arrays.stream(skills.split(","))
                 .map(String::trim)
@@ -53,6 +54,7 @@ public class StudentController {
         }
 
         return repository.findAll().stream()
+                .filter(student -> excludeId == null || !student.getId().equals(excludeId))
                 .map(student -> {
                     List<String> studentSkills = Arrays.stream(
                                     student.getSkills().split(","))

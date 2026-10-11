@@ -450,8 +450,9 @@ async function leaveProject(project) {
           project.skills.join(",")
         );
 
+        const excludeQuery = currentStudent?.id ? `&excludeId=${currentStudent.id}` : "";
         const response = await fetch(
-          `${API}/students/match?skills=${skills}`
+          `${API}/students/match?skills=${skills}${excludeQuery}`
         );
 
         if (!response.ok) {
@@ -462,11 +463,18 @@ async function leaveProject(project) {
 
         if (!cancelled) {
           setMatchedStudents(
-            data.filter(
-              (student) =>
-                String(student.id) !==
-                String(currentStudent?.id)
-            )
+            data.filter((student) => {
+              if (currentStudent?.id && String(student.id) === String(currentStudent.id)) {
+                return false;
+              }
+              if (currentStudent?.email && student.email && student.email.toLowerCase() === currentStudent.email.toLowerCase()) {
+                return false;
+              }
+              if (currentStudent?.name && student.name && student.name.trim().toLowerCase() === currentStudent.name.trim().toLowerCase()) {
+                return false;
+              }
+              return true;
+            })
           );
 
           setMatchingStatus("success");
