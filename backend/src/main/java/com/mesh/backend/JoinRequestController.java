@@ -121,6 +121,7 @@ if (requests.existsByProjectIdAndStudentId(
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> withdraw(@PathVariable Long id) {
 
         JoinRequest r = requests.findById(id).orElse(null);
@@ -129,17 +130,27 @@ if (requests.existsByProjectIdAndStudentId(
             return ResponseEntity.notFound().build();
         }
 
-        if (!"PENDING".equals(r.getStatus())) {
-            return ResponseEntity.badRequest()
-                .body(Map.of(
-                    "message",
-                    "Only pending requests can be withdrawn."
-                ));
+        // If member was already accepted, decrement project members count
+        if ("ACCEPTED".equals(r.getStatus())) {
+            try {
+                Long projectId = Long.valueOf(r.getProjectId());
+                Project project = projects.findById(projectId).orElse(null);
+                if (project != null) {
+                    project.setMembers(Math.max(1, project.getMembers() - 1));
+                    projects.save(project);
+                }
+            } catch (Exception ignored) {}
         }
 
-        requests.delete(r);
+        // Instead of permanently deleting immediately, record WITHDRAWN so the owner is notified
+        r.setStatus("WITHDRAWN");
+        setProjectOwnerName(r);
+        requests.save(r);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(Map.of(
+            "message", "Request withdrawn successfully.",
+            "status", "WITHDRAWN"
+        ));
     }
 
     @PatchMapping("/{id}/status")

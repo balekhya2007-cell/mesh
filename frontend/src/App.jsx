@@ -845,6 +845,7 @@ async function leaveProject(project) {
       }
 
       await refreshRequests();
+      await loadProjects();
 
       showNotice(
         "Join request withdrawn."
@@ -932,9 +933,9 @@ showNotice(
       icon: "↗",
     },
     {
-  name: "Notifications",
-  icon: "♧",
-},
+      name: "Notifications",
+      icon: "🔔",
+    },
     {
       name: "Saved",
       icon: "♡",
@@ -950,6 +951,17 @@ showNotice(
     incomingRequests.filter(
       (request) =>
         request.status === "PENDING"
+    ).length;
+
+  const withdrawnIncoming =
+    incomingRequests.filter(
+      (request) =>
+        request.status === "WITHDRAWN" || request.status === "LEFT"
+    ).length;
+
+  const pendingClosureVotes =
+    closureNotifications.filter(
+      (n) => n.closureStatus === "PENDING" && n.voteStatus === "PENDING"
     ).length;
 
   function requestStatusClass(status) {
@@ -1026,6 +1038,11 @@ if (!loggedInUser) {
                   "Join Requests"
                 ) {
                   refreshRequests();
+                } else if (
+                  item.name ===
+                  "Notifications"
+                ) {
+                  refreshClosureNotifications();
                 }
               }}
               
@@ -1043,16 +1060,31 @@ if (!loggedInUser) {
                   </span>
                 )}
 
-              {item.name ===
-                "Join Requests" &&
-                pendingIncoming +
-                  pendingSent >
-                  0 && (
-                  <span className="nav-count">
-                    {pendingIncoming +
-                      pendingSent}
-                  </span>
-                )}
+              {item.name === "Join Requests" && (
+                <>
+                  {pendingIncoming + withdrawnIncoming > 0 && (
+                    <span className="notification-dot" title="New activity on your projects" />
+                  )}
+                  {pendingIncoming + pendingSent > 0 && (
+                    <span className="nav-count">
+                      {pendingIncoming + pendingSent}
+                    </span>
+                  )}
+                </>
+              )}
+
+              {item.name === "Notifications" && (
+                <>
+                  {pendingClosureVotes > 0 && (
+                    <>
+                      <span className="notification-dot" title="Pending closure decision needed" />
+                      <span className="nav-count alert">
+                        {pendingClosureVotes}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
             </button>
           ))}
         </nav>
@@ -1446,27 +1478,36 @@ if (!loggedInUser) {
 
                           <div className="request-actions">
 
-                            {request.status ===
-                              "PENDING" && (
-
+                            {request.status === "PENDING" && (
                               <button
                                 className="cancel-button"
                                 disabled={
-                                  requestLoading ===
-                                  request.id
+                                  requestLoading === request.id
                                 }
                                 onClick={() =>
-                                  withdrawRequest(
-                                    request
-                                  )
+                                  withdrawRequest(request)
                                 }
                               >
-                                {requestLoading ===
-                                request.id
+                                {requestLoading === request.id
                                   ? "Withdrawing..."
                                   : "Withdraw request"}
                               </button>
+                            )}
 
+                            {request.status === "ACCEPTED" && (
+                              <button
+                                className="cancel-button"
+                                disabled={
+                                  requestLoading === request.id
+                                }
+                                onClick={() =>
+                                  withdrawRequest(request)
+                                }
+                              >
+                                {requestLoading === request.id
+                                  ? "Leaving..."
+                                  : "Withdraw / Leave team"}
+                              </button>
                             )}
 
                           </div>
@@ -1566,6 +1607,18 @@ if (!loggedInUser) {
                               : ""}
 
                           </p>
+
+                          {request.status === "WITHDRAWN" && (
+                            <p style={{ color: "#7e22ce", fontSize: "11px", fontWeight: "600", marginTop: "6px" }}>
+                              ⚠️ This student withdrew their join request.
+                            </p>
+                          )}
+
+                          {request.status === "LEFT" && (
+                            <p style={{ color: "#7e22ce", fontSize: "11px", fontWeight: "600", marginTop: "6px" }}>
+                              ⚠️ This student has left the project team.
+                            </p>
+                          )}
 
                           {request.status ===
                             "PENDING" && (

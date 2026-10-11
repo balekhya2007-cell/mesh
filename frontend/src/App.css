@@ -414,6 +414,36 @@ h2 { font-family: Manrope, sans-serif; font-size: 21px; letter-spacing: -.6px; m
   color: #a43c38;
 }
 
+.request-status.withdrawn,
+.request-status.left {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border: 1px solid #e9d5ff;
+}
+
+.notification-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  margin-left: 6px;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.nav-count.alert {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 700;
+}
+
 .request-actions {
   display: flex;
   flex-wrap: wrap;
