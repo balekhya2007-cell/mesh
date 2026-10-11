@@ -287,11 +287,14 @@ h2 { font-family: Manrope, sans-serif; font-size: 21px; letter-spacing: -.6px; m
 .create-modal input, .create-modal textarea, .create-modal select { width: 100%; padding: 11px 12px; border: 1px solid #e0e6df; border-radius: 7px; background: #fff; color: #303b32; font-size: 12px; outline-color: #8bb89a; }
 .create-modal textarea { resize: vertical; line-height: 1.6; }
 .create-modal input::placeholder, .create-modal textarea::placeholder { color: #a3aba3; }
-.analyze-button { width: 100%; margin-top: 15px; padding: 11px; border: 1px solid #d5e7d7; border-radius: 7px; background: #f0f8f0; color: #287849; font-size: 11px; font-weight: 700; }
-.analyze-button:hover { background: #e5f3e6; }
-.analysis-panel { padding: 14px; border: 1px solid #dcebdd; border-radius: 8px; background: #f8fbf7; margin-top: 13px; }
-.analysis-panel > strong { font-size: 12px; }
-.analysis-panel > p { font-size: 10px; color: #7e897e; margin: 8px 0; }
+.analyze-button { width: 100%; margin-top: 15px; padding: 12px; border: 1px solid #c2e2c8; border-radius: 8px; background: #eaf6ec; color: #1e693b; font-size: 13px; font-weight: 700; transition: all 0.2s; }
+.analyze-button:hover { background: #d8eedb; }
+.analysis-panel { padding: 18px; border: 1.5px solid #a3d9ae; border-radius: 10px; background: #f2f9f3; margin-top: 16px; box-shadow: 0 4px 14px rgba(40, 122, 81, 0.08); }
+.analysis-panel > strong { font-size: 15px; color: #1c5e35; display: flex; align-items: center; gap: 6px; }
+.analysis-panel > p { font-size: 13px; color: #37473b; margin: 10px 0 6px; }
+.analysis-panel ul { margin: 8px 0; padding-left: 20px; font-size: 12px; color: #46594a; line-height: 1.6; }
+.analysis-panel li { margin-bottom: 4px; }
+.analysis-panel .skill-tag { background: #ffffff; border: 1px solid #b7e0be; color: #1b5c34; font-size: 11px; font-weight: 600; padding: 6px 10px; border-radius: 6px; }
 .analysis-note { line-height: 1.6; margin-bottom: 0 !important; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 23px; padding-top: 16px; border-top: 1px solid #edf0eb; }
 .cancel-button { padding: 0 16px; }

@@ -2389,11 +2389,8 @@ const acceptedMembership = requests.find(
               onChange={(event) => {
                 setForm({
                   ...form,
-                  title:
-                    event.target.value,
+                  title: event.target.value,
                 });
-
-                setAnalysis(null);
               }}
               placeholder="e.g. AI-powered smart agriculture"
               required
@@ -2409,8 +2406,7 @@ const acceptedMembership = requests.find(
               onChange={(event) =>
                 setForm({
                   ...form,
-                  department:
-                    event.target.value,
+                  department: event.target.value,
                 })
               }
             >
@@ -2437,11 +2433,8 @@ const acceptedMembership = requests.find(
               onChange={(event) => {
                 setForm({
                   ...form,
-                  description:
-                    event.target.value,
+                  description: event.target.value,
                 });
-
-                setAnalysis(null);
               }}
               placeholder="What problem will you solve? What do you want to build?"
               rows={4}
