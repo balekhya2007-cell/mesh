@@ -1,0 +1,28 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Python
+ai-service/__pycache__/
+ai-service/.venv/
+ai-service/venv/
+
+# Java
+backend/target/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
