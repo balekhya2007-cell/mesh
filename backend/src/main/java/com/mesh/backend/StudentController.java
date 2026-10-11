@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://unimesh.netlify.app"})
 public class StudentController {
 
     private final StudentRepository repository;

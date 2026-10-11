@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @RequestMapping("/api/join-requests")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://unimesh.netlify.app"})
 public class JoinRequestController {
 
     private final JoinRequestRepository requests;
